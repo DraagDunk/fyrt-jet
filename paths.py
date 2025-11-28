@@ -5,7 +5,7 @@ from character import Character
 from items import Item
 from roll import Roll
 
-GAME_SPEED = 50000
+GAME_SPEED = 50
 
 
 def wait_print(message):
