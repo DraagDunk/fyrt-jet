@@ -228,6 +228,7 @@ tag_kobber = LootPath(
 sig_du_er_net = HasItemLinearPath(
     "Sig: 'Du er en net fyr!'",
     "Du sætter hunden på heksens forklæde.",
+    required_item=forklæde,
     failed="'Tak,' siger hunden og blinker med øjnene så store som tekopper.",
     success_consequence=lambda c: rum1.add_choices(tag_kobber)
 )
@@ -278,6 +279,7 @@ tag_sølv = LootPath(
 sig_du_skal_ikke_se = HasItemLinearPath(
     "Sig: 'Du skulle ikke se så meget på mig! Du kunne få ondt i øjnene!'",
     "Du sætter hunden på heksens forklæde.",
+    required_item=forklæde,
     failed="Hunden spærrer øjnene yderligere op på provokerende vis.",
     success_consequence=lambda c: rum1.add_choices(tag_sølv)
 )
@@ -329,6 +331,7 @@ sig_godaften = HasItemLinearPath(
     "tag til kasketten og sig: 'God aften!'",
     "Sådan en hund har du aldrig set før; Men da du nu så lidt på ham, tænker du, nu kan det jo "
     "være nok. Du løfter ham ned på gulvet, og sætter ham på heksens forklæde.",
+    required_item=forklæde,
     failed="'Godaften,' siger hunden høfligt.",
     success_consequence=lambda c: rum3.add_choices(tag_guld)
 )
