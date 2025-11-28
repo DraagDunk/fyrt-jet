@@ -7,18 +7,13 @@ from roll import Roll
 class Character:
     def __init__(self, name):
         self.name = name
-        if name == "Hans Christian":
-            self.body = 100
-            self.mind = 100
-            self.spirit = 100
-            self.health = 101
-            self.max_health = 101
-        else:
-            self.body = 1
-            self.mind = 1
-            self.spirit = 1
-            self.health = 3
-            self.max_health = 3
+        self.level = 1
+        self.xp = 0
+        self.body = 1
+        self.mind = 1
+        self.spirit = 1
+        self.health = 3
+        self.max_health = 3
         self.inventory = []
 
     def add_item(self, item: Item):
@@ -62,3 +57,31 @@ class Character:
                 return True
         else:
             return False
+
+    def gain_xp(self, num):
+        self.xp += num
+        if self.xp >= 10:
+            self.xp -= 10
+            self.level_up()
+
+    def level_up(self):
+        self.level += 1
+        print("\n.・。.・゜✭・.・✫・゜・。. ")
+        print(f"        Niveau {self.level}")
+        print(".・。.・゜✭・.・✫・゜・。. ")
+
+        stat_inc = None
+        while not stat_inc or stat_inc not in "kså":
+            stat_inc = input("Hvilken egenskab ønsker du at hæve? [k/s/å]: ")
+            match stat_inc:
+                case "k":
+                    self.body += 1
+                case "s":
+                    self.mind += 1
+                case "å":
+                    self.spirit += 1
+
+        self.health += 1
+        self.max_health += 1
+
+        self.show_stats()

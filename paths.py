@@ -5,7 +5,7 @@ from character import Character
 from items import Item
 from roll import Roll
 
-GAME_SPEED = 50
+GAME_SPEED = 50000
 
 
 def wait_print(message):
@@ -24,7 +24,7 @@ class SimplePath:
     def choose(self, char, *args, silent: bool = False):
         self.clean_up(char)
         if not silent:
-            wait_print("\n"+self.consequence)
+            wait_print(f"\n{self.consequence}")
 
     def clean_up(self, char):
         if self.after:
@@ -105,7 +105,8 @@ class LinearChallengePath(LinearPath):
 
     def choose(self, char: Character, *args, **kwargs):
         if self.succeeded:
-            self.consequence = self.succeeded_consequence
+            if self.succeeded_consequence:
+                self.consequence = self.succeeded_consequence
             super().choose(char, *args)
 
         else:
@@ -269,7 +270,7 @@ class HasItemLinearPath(LinearPath):
             wait_print(self.failed)
 
             if self.failed_path:
-                self.failed.back = self
+                self.failed_path.back = self
                 self.failed_path.choose(char, **kwargs)
             elif self.next_path:
                 self.next_path.back = self

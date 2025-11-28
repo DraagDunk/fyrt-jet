@@ -28,8 +28,9 @@ hug_ned = LinearChallengePath(
     "Du hugger hovedet af den klamme heks, og fortsætter hjem.",
     failed="Heksen losser dig durk i løgene.",
     failed_consequence=lambda c: c.take_damage(2),
-    challenge=6,
-    stat="body"
+    challenge=7,
+    stat="body",
+    success_consequence=lambda c: c.gain_xp(10)
 )
 
 se_træet = LinearPath(
@@ -137,6 +138,7 @@ undersøg_træet = LinearChallengePath(
     stat="mind",
     failed="Træet ser ud til at være på nippet til at falde sammen om ørene på dig. Det virker "
     "ikke sikkert.",
+    success_consequence=lambda c: c.gain_xp(2),
 )
 undersøg_træet.set_next(ved_træet)
 undersøg_træet.set_failed_next(ved_træet)
@@ -148,6 +150,7 @@ kravl_ind = LinearChallengePath(
     stat="spirit",
     failed="Du snubler på vej ned i træet, og falder det sidste stykke.",
     failed_consequence=lambda c: c.take_damage(1),
+    success_consequence=lambda c: c.gain_xp(4),
 )
 ved_træet.add_choices(ignorer_træet, undersøg_træet, kravl_ind)
 
@@ -200,7 +203,8 @@ klatr_op = LinearChallengePath(
     failed="Du prøver at klatre op, men falder ned.",
     failed_consequence=lambda c: c.take_damage(1),
     challenge=6,
-    stat="spirit"
+    stat="spirit",
+    success_consequence=lambda c: c.gain_xp(4)
 )
 kravl_op.set_failed_next(klatr_op)
 klatr_op.set_next(ved_træet)
@@ -235,6 +239,7 @@ def slå_hund_1_sc(char):
     rum1.consequence = "Du står i et rum med en død hund med øjne så store som tekopper."
     dør1.consequence = "Nu lukker du den første dør op. Uh! Dér ligger en hund med øjne, så store "
     "som tekopper og er død på jorden."
+    char.gain_xp(5)
 
 
 slå_hund_1 = LinearChallengePath(
@@ -284,6 +289,7 @@ def slå_hund_2_sc(char):
     rum2.consequence = "Du står i et rum med en død hund med øjne så store som møllehjul."
     dør2.consequence = "Nu lukker du den første dør op. Eja! Dér ligger en hund med øjne, så store "
     "som møllehjul og er død på jorden."
+    char.gain_xp(7)
 
 
 slå_hund_2 = LinearChallengePath(
@@ -334,6 +340,7 @@ def slå_hund_3_sc(char):
     rum3.consequence = "Du står i et rum med en død hund med øjne så store som Rundetårn."
     dør3.consequence = "Du går ind i det tredje kammer! Nej det var ækelt! Den døde hund derinde "
     "har virkeligt to øjne så store som Rundetårn!"
+    char.gain_xp(9)
 
 
 slå_hund_3 = LinearChallengePath(
@@ -401,7 +408,9 @@ tru_heksen = LinearChallengePath(
     "'Jeg skal tænde op med det,' mumler heksen.",
     failed="'Nej,' siger heksen.",
     challenge=6,
-    stat="spirit"
+    stat="spirit",
+    success_consequence=lambda c: c.gain_xp(1),
+    succeeded_consequence="'Jeg har sagt det!' siger den grimme heks."
 )
 
 dræb_heksen = LinearChallengePath(
@@ -410,7 +419,8 @@ dræb_heksen = LinearChallengePath(
     failed="Heksen løber skrigende og skrålende væk.",
     challenge=4,
     stat="body",
-    after=lambda c: ved_træet.rem_choices(kravl_ind)
+    after=lambda c: ved_træet.rem_choices(kravl_ind),
+    success_consequence=lambda c: c.gain_xp(2)
 )
 ved_heksen.add_choices(giv_fyrtøj, spørg_om_fyrtøj, tru_heksen, dræb_heksen)
 dræb_heksen.set_next(ved_træet)
@@ -425,7 +435,8 @@ ignorer_heksen = LinearChallengePath(
     "'Undskyld,' siger hun, 'hørte du ikke hvad jeg sagde?'",
     challenge=4,
     stat="mind",
-    failed_consequence=lambda c: heksens_hilsen.set_choices(sig_tak, hug_ned)
+    failed_consequence=lambda c: heksens_hilsen.set_choices(sig_tak, hug_ned),
+    success_consequence=lambda c: c.gain_xp(10)
 )
 ignorer_heksen.set_failed_next(heksens_hilsen)
 heksens_hilsen.add_choices(sig_tak, hug_ned, ignorer_heksen)
