@@ -73,7 +73,8 @@ class Character:
 
         stat_inc = None
         while not stat_inc or stat_inc not in "kså":
-            stat_inc = input("Hvilken egenskab ønsker du at hæve? [k/s/å]: ")
+            stat_inc = input(
+                "Hvilken egenskab ønsker du at hæve? Krop, sind eller ånd? [k/s/å]: ")
             match stat_inc:
                 case "k":
                     self.body += 1
