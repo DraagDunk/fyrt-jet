@@ -113,6 +113,9 @@ få_strik = LootPath(
     loot=strik,
     looted_consequence="'Øh,' sagde heksen forvirret, 'jeg har bundet den om dig ...'"
 )
+sig_tak.add_choices(få_strik)
+
+heksen_forklaring.add_choices(få_strik, få_forklæde)
 
 ved_træet = ChoicePath(
     "Gå hen til træet.",

@@ -28,18 +28,17 @@ class Character:
         self.inventory.remove(item)
 
     def show_inventory(self):
-        print("\nGenstande:")
+        print("\n| Genstande:")
         for item in self.inventory:
-            print(f"* {item}")
+            print(f"| * {str(item).capitalize()}")
         print("\n")
 
     def show_stats(self):
-        print("\nKarakter:")
-        print(f"Navn: {self.name}")
-        print(f"Helbred: {self.health}/{self.max_health}")
-        print(f"Krop: {self.body}")
-        print(f"Sind: {self.mind}")
-        print(f"Ånd:  {self.spirit}")
+        print(f"\n| Navn: {self.name}")
+        print(f"| Helbred: {self.health}/{self.max_health}")
+        print(f"| Krop: {self.body}")
+        print(f"| Sind: {self.mind}")
+        print(f"| Ånd:  {self.spirit}")
         print("\n")
 
     def check_death(self):

@@ -5,12 +5,12 @@ from character import Character
 from items import Item
 from roll import Roll
 
-GAME_SPEED = 100000
+GAME_SPEED = 50
 
 
 def wait_print(message):
-    sleep(len(message)/GAME_SPEED)
     print(message)
+    sleep(len(message)/GAME_SPEED)
 
 
 class SimplePath:
@@ -54,6 +54,7 @@ class LinearPath(SimplePath):
         super().choose(char, *args, **kwargs)
 
         if self.next_path:
+            self.next_path.back = self
             self.next_path.choose(char, *args)
 
         else:
@@ -126,8 +127,10 @@ class LinearChallengePath(LinearPath):
                     self.failed_consequence(char)
 
                 if self.failed_path:
+                    self.failed_path.back = self
                     self.failed_path.choose(char, *args)
                 elif self.next_path:
+                    self.next_path.back = self
                     self.next_path.choose(char, *args)
                 else:
                     self.back.choose(char, *args, silent=True)
@@ -153,8 +156,6 @@ class LootPath(SimplePath):
                 self.looted = True
                 self.consequence = self.looted_consequence
                 print(f"\nDu tog {self.loot.name}!")
-
-        print("Nuværende genstande:", char.inventory)
 
         self.back.choose(char, silent=True)
 
@@ -238,6 +239,7 @@ class ChoicePath(SimplePath):
                     else:
                         choice = self.choices[int_choice-1]
 
+            choice.back = self
             choice.choose(char, *args)
 
         else:
@@ -267,8 +269,10 @@ class HasItemLinearPath(LinearPath):
             wait_print(self.failed)
 
             if self.failed_path:
+                self.failed.back = self
                 self.failed_path.choose(char, **kwargs)
             elif self.next_path:
+                self.next_path.back = self
                 self.next_path.choose(char, **kwargs)
             else:
                 self.back.choose(char, silent=True)
