@@ -30,6 +30,7 @@ class Character:
 
     def show_stats(self):
         print(f"\n| Navn: {self.name}")
+        print(f"| Niveau: {self.level}")
         print(f"| Helbred: {self.health}/{self.max_health}")
         print(f"| Krop: {self.body}")
         print(f"| Sind: {self.mind}")

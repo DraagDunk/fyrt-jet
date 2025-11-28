@@ -67,12 +67,16 @@ class EndPath(SimplePath):
         super().__init__(*args, **kwargs)
         self.credits = credits
 
-    def choose(self, char, *args, **kwargs):
+    def choose(self, char: Character, *args, **kwargs):
         super().choose(char, *args, **kwargs)
 
         print("\nTak fordi du spillede! Denne historie er lavet af:")
         for cred in self.credits:
             wait_print(f"  {cred}")
+
+        char.show_stats()
+
+        char.show_inventory()
 
         sys.exit(1)
 
