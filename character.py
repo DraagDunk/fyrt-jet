@@ -68,7 +68,7 @@ class Character:
     def level_up(self):
         self.level += 1
         print("\n.・。.・゜✭・.・✫・゜・。. ")
-        print(f"        Niveau {self.level}")
+        print(f"         Niveau {self.level}")
         print(".・。.・゜✭・.・✫・゜・。. ")
 
         stat_inc = None
@@ -87,3 +87,17 @@ class Character:
         self.max_health += 1
 
         self.show_stats()
+
+
+class NPC:
+    def __init__(self, name: str, xp: int = 5):
+        self.name = name
+        self.xp = xp
+        self.alive = True
+
+    def kill(self, char):
+        self.alive = False
+        char.gain_xp(self.xp)
+
+    def is_alive(self):
+        return self.alive

@@ -15,11 +15,12 @@ def wait_print(message):
 
 class SimplePath:
 
-    def __init__(self, action: str, consequence: str, back=None, after=None):
+    def __init__(self, action: str, consequence: str, back=None, after=None, requirement=None):
         self.action = action
         self.consequence = consequence
         self.back = back
         self.after = after
+        self.requirement = requirement
 
     def choose(self, char, *args, silent: bool = False):
         self.clean_up(char)
@@ -35,6 +36,9 @@ class SimplePath:
 
     def __repr__(self):
         return f'<{self.__class__.__name__}: "{self.action[:20]} ..., {self.consequence[:20]} ...">'
+
+    def can_choose(self, char):
+        return self.requirement(char)
 
 
 class LinearPath(SimplePath):
@@ -219,7 +223,9 @@ class ChoicePath(SimplePath):
 
         if self.choices:
             print("\nHvad vil du gøre?")
-            for i, choice in enumerate(self.choices):
+            pos_choices = [
+                choice for choice in self.choices if choice.can_choose(char)]
+            for i, choice in enumerate(pos_choices):
                 print(f"({i+1}): {choice.action}")
 
             choice = None

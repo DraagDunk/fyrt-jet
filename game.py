@@ -1,7 +1,7 @@
 from paths import ChoicePath, LinearPath, LootPath, LinearChallengePath, EndPath, \
     HasItemLinearPath
 from items import Item, Weapon
-from character import Character
+from character import Character, NPC
 
 # Landevejen
 landevejen = LinearPath(
@@ -23,6 +23,8 @@ landevejen.set_next(heksens_hilsen)
 
 # Slå heksen ihjel
 
+heksen = NPC("Heksen")
+
 hug_ned = LinearChallengePath(
     "Hug den vederstyggelige heks ned.",
     "Du hugger hovedet af den klamme heks, og fortsætter hjem.",
@@ -30,7 +32,7 @@ hug_ned = LinearChallengePath(
     failed_consequence=lambda c: c.take_damage(2),
     challenge=7,
     stat="body",
-    success_consequence=lambda c: c.gain_xp(10)
+    success_consequence=heksen.kill(10)
 )
 
 se_træet = LinearPath(
@@ -217,6 +219,8 @@ rum1 = ChoicePath(
 )
 dør1.set_next(rum1)
 
+hund1 = NPC("Hunden med øjne så store som tekopper", xp=5)
+
 kobber = Item("kobberskillinger")
 tag_kobber = LootPath(
     "Tag kobberskillinger.",
@@ -240,7 +244,7 @@ def slå_hund_1_sc(char):
     rum1.consequence = "Du står i et rum med en død hund med øjne så store som tekopper."
     dør1.consequence = "Nu lukker du den første dør op. Uh! Dér ligger en hund med øjne, så store "
     "som tekopper og er død på jorden."
-    char.gain_xp(5)
+    hund1.kill()
 
 
 slå_hund_1 = LinearChallengePath(
@@ -268,6 +272,8 @@ rum2 = ChoicePath(
 )
 dør2.set_next(rum2)
 
+hund2 = NPC("Hunden med øjne så store som møllehjul", xp=7)
+
 sølv = Item("sølvskillinger")
 tag_sølv = LootPath(
     "Tag sølvskillinger.",
@@ -291,7 +297,7 @@ def slå_hund_2_sc(char):
     rum2.consequence = "Du står i et rum med en død hund med øjne så store som møllehjul."
     dør2.consequence = "Nu lukker du den første dør op. Eja! Dér ligger en hund med øjne, så store "
     "som møllehjul og er død på jorden."
-    char.gain_xp(7)
+    hund2.kill(char)
 
 
 slå_hund_2 = LinearChallengePath(
@@ -318,6 +324,8 @@ rum3 = ChoicePath(
 )
 dør3.set_next(rum3)
 
+hund3 = NPC("Hunden med øjne så store som Rundetårn", xp=9)
+
 guld = Item("guldskillinger")
 tag_guld = LootPath(
     "Tag guldmønter",
@@ -343,7 +351,7 @@ def slå_hund_3_sc(char):
     rum3.consequence = "Du står i et rum med en død hund med øjne så store som Rundetårn."
     dør3.consequence = "Du går ind i det tredje kammer! Nej det var ækelt! Den døde hund derinde "
     "har virkeligt to øjne så store som Rundetårn!"
-    char.gain_xp(9)
+    hund3.kill(char)
 
 
 slå_hund_3 = LinearChallengePath(
@@ -423,7 +431,7 @@ dræb_heksen = LinearChallengePath(
     challenge=4,
     stat="body",
     after=lambda c: ved_træet.rem_choices(kravl_ind),
-    success_consequence=lambda c: c.gain_xp(2)
+    success_consequence=lambda c: heksen.kill(char)
 )
 ved_heksen.add_choices(giv_fyrtøj, spørg_om_fyrtøj, tru_heksen, dræb_heksen)
 dræb_heksen.set_next(ved_træet)
